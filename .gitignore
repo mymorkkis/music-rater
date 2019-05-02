@@ -1,0 +1,5 @@
+*.py[cod]
+.vscode/
+.pytest_cache/
+.pylintrc
+music_rater_graphql.db
