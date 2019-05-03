@@ -7,6 +7,10 @@ name = "pypi"
 graphene = "*"
 sqlalchemy = "*"
 alembic = "*"
+flask = "*"
+flask-graphql = "*"
+graphene-sqlalchemy = "*"
+pipfile = "*"
 
 [dev-packages]
 pytest = "*"

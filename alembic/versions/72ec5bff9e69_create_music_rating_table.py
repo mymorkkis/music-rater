@@ -5,6 +5,8 @@ Revises: e3bf223c7822
 Create Date: 2019-05-02 19:00:31.670404
 
 """
+from datetime import datetime
+
 import sqlalchemy as sa
 from alembic import op
 
@@ -20,6 +22,8 @@ def upgrade():
         'music_rating',
         sa.Column('id', sa.BigInteger, primary_key=True),
         sa.Column('rating', sa.Integer, nullable=False),
+        sa.Column('created_at', sa.DateTime, default=datetime.utcnow(), nullable=False),
+        sa.Column('updated_at', sa.DateTime, nullable=True),
         sa.Column('artist_id', sa.BigInteger, sa.ForeignKey('Artist.id'), nullable=False),
         sa.Column('album_id', sa.BigInteger, sa.ForeignKey('Album.id'), nullable=True),
         sa.Column('track_id', sa.BigInteger, sa.ForeignKey('Track.id'), nullable=True)

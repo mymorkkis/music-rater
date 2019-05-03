@@ -1,6 +1,8 @@
-from sqlalchemy import Column, BigInteger, ForeignKey, Integer
+from datetime import datetime
 
-from db.engine import Base
+from sqlalchemy import Column, BigInteger, DateTime, ForeignKey, Integer
+
+from src.base import Base
 
 
 class MusicRating(Base):
@@ -8,6 +10,8 @@ class MusicRating(Base):
 
     id = Column('id', BigInteger, primary_key=True)
     rating = Column('rating', Integer, nullable=False)
+    created_at = Column('created_at', DateTime, default=datetime.utcnow(), nullable=False)
+    updated_at = Column('updated_at', DateTime, nullable=True)
     artist_id = Column(BigInteger, ForeignKey('Artist.id'), nullable=False)
     album_id = Column(BigInteger, ForeignKey('Album.id'), nullable=True)
     track_id = Column(BigInteger, ForeignKey('Track.id'), nullable=True)

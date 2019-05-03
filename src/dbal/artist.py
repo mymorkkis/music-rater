@@ -1,7 +1,7 @@
 from sqlalchemy import BigInteger, Column, Enum, String
 from sqlalchemy.orm import relationship
 
-from db.engine import Base
+from src.base import Base
 
 
 class Artist(Base):
