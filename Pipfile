@@ -4,13 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-graphene = "*"
 sqlalchemy = "*"
 alembic = "*"
 flask = "*"
 flask-graphql = "*"
 graphene-sqlalchemy = "*"
-pipfile = "*"
+graphene = "*"
 
 [dev-packages]
 pytest = "*"

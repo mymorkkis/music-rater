@@ -18,9 +18,9 @@ depends_on = None
 def upgrade():
     op.create_table(
         'artist',
-        sa.Column('id', sa.BigInteger, primary_key=True),
+        sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('name', sa.String(255), nullable=False),
-        sa.Column('artist_type', sa.Enum('solo', 'group'), nullable=False),
+        sa.Column('artist_type', sa.String(5), sa.CheckConstraint('artist_type IN ("solo", "group")'), nullable=False),
     )
 
 

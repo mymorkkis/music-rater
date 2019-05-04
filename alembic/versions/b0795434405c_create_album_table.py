@@ -18,9 +18,9 @@ depends_on = None
 def upgrade():
     op.create_table(
         'album',
-        sa.Column('id', sa.BigInteger, primary_key=True),
-        sa.Column('title', sa.String(255), nullable=False),
-        sa.Column('artist_id', sa.BigInteger, sa.ForeignKey('Artist.id'), nullable=False)
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('name', sa.String(255), nullable=False),
+        sa.Column('artist_id', sa.Integer, sa.ForeignKey('artist.id'), nullable=False)
     )
 
 def downgrade():

@@ -3,3 +3,4 @@
 .pytest_cache/
 .pylintrc
 music_rater_graphql.db
+dummy_data.py

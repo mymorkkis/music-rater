@@ -11,6 +11,4 @@ engine = create_engine(URL(**sqlite_db))
 
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-Base.metadata.create_all(engine)
-
-Base.query.db_session.query_property()
+Base.query = db_session.query_property()
