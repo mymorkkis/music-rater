@@ -13,8 +13,15 @@ class Artist(Base):
     )
 
     id = Column(Integer, primary_key=True)
+
     name = Column(String(255), nullable=False, index=True)
+
     artist_type = Column(String(5), nullable=False)
+
     genre_id = Column(Integer, ForeignKey('genre.id'), nullable=False)
+
     albums = relationship('Album', backref='artist', lazy=True)
+
     tracks = relationship('Track', backref='artist', lazy=True)
+
+    rating = relationship("MusicRating", uselist=False, back_populates="artist")

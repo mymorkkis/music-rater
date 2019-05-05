@@ -12,7 +12,13 @@ class Album(Base):
     )
 
     id = Column(Integer, primary_key=True)
+
     name = Column(String(255), index=True)
+
     artist_id = Column(Integer, ForeignKey('artist.id'), nullable=False)
+
     genre_id = Column(Integer, ForeignKey('genre.id'), nullable=False)
+
     tracks = relationship('Track', backref='album', lazy=True)
+
+    rating = relationship("MusicRating", uselist=False, back_populates="album")
