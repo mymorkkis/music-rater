@@ -8,8 +8,14 @@ class DBALRepository():
         self.model = model
         self.session = db_session
 
-    def get(self, entity_id):
+    def get_by_id(self, entity_id):
         return self.session.query(self.model).filter_by(id=entity_id).one()
+
+    def find(self, attribute, value):
+        # Basic implementation. TODO Flesh out with proper criterion login
+        return self.session.query(self.model).filter(
+            getattr(self.model, attribute) == value
+        ).all()
 
     def add(self, entity):
         self.session.add(entity)
@@ -24,7 +30,7 @@ class DBALRepository():
             pass  # TODO Log error?
 
     def update(self, entity):
-        stored_entity = self.get(entity.id)
+        stored_entity = self.get_by_id(entity.id)
 
         for attribute in vars(stored_entity).keys():
             if not attribute.startswith('_'):
@@ -35,7 +41,11 @@ class DBALRepository():
 
     def upsert(self, entity):
         try:
-            stored_entity = self.get(entity.id)
+            stored_entity = self.get_by_id(entity.id)
             return self.update(stored_entity)
         except NoResultFound:
             return self.add(entity)
+
+    def drop_table(self):
+        self.session.query(self.model).delete()
+        self.session.commit()
