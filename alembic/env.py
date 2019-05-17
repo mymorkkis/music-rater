@@ -11,7 +11,7 @@ from alembic import context
 # Add models to detect schema for --autogenerate
 sys.path.append(os.getcwd())
 from src.base import Base
-from src.dbal import genre, artist, album, track, music_rating
+from src.dbal.models import genre, artist, album, track, music_rating
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

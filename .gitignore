@@ -4,3 +4,5 @@
 .pylintrc
 music_rater_graphql.db
 dummy_data.py
+vandelay-py.js
+notes.txt

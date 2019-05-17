@@ -2,7 +2,7 @@ import graphene
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 
-from src.dbal import artist, album, track, music_rating, genre
+from src.dbal.models import artist, album, track, music_rating, genre
 
 
 class Rating(SQLAlchemyObjectType):
