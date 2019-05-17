@@ -1,3 +1,4 @@
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 
 
@@ -16,8 +17,11 @@ class DBALRepository():
         return entity
 
     def delete(self, entity):
-        self.session.delete(entity)
-        self.session.commit()
+        try:
+            self.session.delete(entity)
+            self.session.commit()
+        except InvalidRequestError:
+            pass  # TODO Log error?
 
     def update(self, entity):
         stored_entity = self.get(entity.id)

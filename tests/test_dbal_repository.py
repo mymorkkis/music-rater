@@ -36,6 +36,10 @@ class TestDBALRepsoitory:
         with pytest.raises(NoResultFound):
             dbal_repository.get(entity_id=stored_genre.id)
 
+    def test_attempt_to_delete_a_non_existent_entity_does_not_raise_error(self, dbal_repository):
+        genre = Genre(name='Not Stored')
+        dbal_repository.delete(genre)
+
     def test_can_update_an_entity(self, stored_genre, dbal_repository):
         stored_genre.name = 'Punk'
         updated_genre = dbal_repository.update(stored_genre)
