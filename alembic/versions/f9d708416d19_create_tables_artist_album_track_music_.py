@@ -20,7 +20,8 @@ def upgrade():
     op.create_table('genre',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.PrimaryKeyConstraint('id', name=op.f('pk_genre'))
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_genre')),
+    sa.UniqueConstraint('name', name=op.f('uq_genre_name'))
     )
     op.create_index(op.f('ix_genre_name'), 'genre', ['name'], unique=False)
     op.create_table('artist',
