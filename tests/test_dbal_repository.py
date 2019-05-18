@@ -18,6 +18,11 @@ def stored_genre(genre_repository):
     return stored_genre
 
 
+@pytest.fixture
+def artist_repository(test_session):
+    return DBALRepository(model=Artist, db_session=test_session)
+
+
 class TestDBALRepsoitory:
 
     def test_can_add_an_entity(self, stored_genre):
@@ -33,24 +38,31 @@ class TestDBALRepsoitory:
             genre_repository.get_by_id(entity_id=999)
 
     def test_can_find_an_entity_by_attribute(self, stored_genre, genre_repository):
-        genres = genre_repository.find(attribute='name', value='Rock')
+        genres = genre_repository.find(name='Rock')
         assert genres[0].id == stored_genre.id
 
-    def test_can_find_multiple_entities_by_attribute(self, test_session):
-        artist_repository = DBALRepository(model=Artist, db_session=test_session)
+    def test_can_find_multiple_entities_by_attribute(self, artist_repository):
         blur = artist_repository.add(Artist(name='Blur', artist_type='group', genre_id=1))
         oasis = artist_repository.add(Artist(name='Oasis', artist_type='group', genre_id=1))
-        genres = artist_repository.find(attribute='artist_type', value='group')
+        found_artists = artist_repository.find(artist_type='group')
 
-        assert set(genres) == {blur, oasis}
+        assert set(found_artists) == {blur, oasis}
+
+    def test_can_find_entity_by_multiple_attributes(self, artist_repository):
+        blur_group = artist_repository.add(Artist(name='Blur', artist_type='group', genre_id=1))
+        blur_solo = artist_repository.add(Artist(name='Blur', artist_type='solo', genre_id=1))
+        found_artists = artist_repository.find(name='Blur', artist_type='group')
+
+        assert found_artists == [blur_group]
+
 
     def test_empty_list_returned_if_no_entities_found(self, genre_repository):
-        genres = genre_repository.find(attribute='name', value='Non Existing')
+        genres = genre_repository.find(name='Non Existing')
         assert genres == []
 
     def test_attribute_error_raised_if_unknown_attrubute_passed_in_to_find(self, genre_repository):
         with pytest.raises(AttributeError):
-            genre_repository.find(attribute='boom', value='BOOM')
+            genre_repository.find(boom='BOOM')
 
     def test_can_delete_an_entity(self, stored_genre, genre_repository):
         genre_repository.delete(stored_genre)

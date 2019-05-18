@@ -11,11 +11,12 @@ class DBALRepository():
     def get_by_id(self, entity_id):
         return self.session.query(self.model).filter_by(id=entity_id).one()
 
-    def find(self, attribute, value):
-        # Basic implementation. TODO Flesh out with proper criterion login
-        return self.session.query(self.model).filter(
-            getattr(self.model, attribute) == value
-        ).all()
+    def find(self, **attributes):
+        # Basic implementation handling eq. TODO Flesh out with proper criterion login
+        query = self.session.query(self.model)
+        for key, value in attributes.items():
+            query = query.filter(getattr(self.model, key) == value)
+        return query.all()
 
     def add(self, entity):
         self.session.add(entity)
