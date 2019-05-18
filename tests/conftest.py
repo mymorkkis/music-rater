@@ -10,6 +10,9 @@ import pytest
 from src.dbal.dbal_repository import DBALRepository
 
 
+Session = sessionmaker()
+
+
 TEST_DB = 'test.db'
 TEST_DB_PATH = Path.cwd() / TEST_DB
 TEST_DATABASE_URI = f'sqlite:///{TEST_DB_PATH}'
@@ -50,13 +53,13 @@ def test_session(test_engine):
     '''Creates a new database session for a test'''
     connection = test_engine.connect()
     transaction = connection.begin()
-    test_db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=test_engine))
+    test_db_session = Session(bind=connection)
 
     yield test_db_session
 
+    test_db_session.close()
     transaction.rollback()
     connection.close()
-    test_db_session.remove()
 
 
 @pytest.fixture(scope='function')

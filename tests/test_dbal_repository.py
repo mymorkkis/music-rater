@@ -8,11 +8,7 @@ from src.dbal.models.genre import Genre
 
 @pytest.fixture
 def dbal_repository(test_session):
-    genre_repository = DBALRepository(model=Genre, db_session=test_session)
-
-    yield genre_repository
-
-    genre_repository.drop_table()
+    return DBALRepository(model=Genre, db_session=test_session)
 
 
 @pytest.fixture
@@ -47,8 +43,6 @@ class TestDBALRepsoitory:
         genres = dbal_repository.find(attribute='artist_type', value='group')
 
         assert set(genres) == {blur, oasis}
-
-        dbal_repository.drop_table()
 
     def test_empty_list_returned_if_no_entities_found(self, dbal_repository):
         genres = dbal_repository.find(attribute='name', value='Non Existing')
