@@ -83,3 +83,9 @@ class TestDBALRepsoitory:
         assert updated_entity.name == 'Punk'
         assert stored_updated_entity.name == 'Punk'
         assert stored_updated_entity.id
+
+    def test_can_truncate_table(self, stored_genre, dbal_repository):
+        genre_rows = dbal_repository.session.query(dbal_repository.model)
+        assert len(genre_rows.all()) == 1
+        dbal_repository.truncate_table()
+        assert len(genre_rows.all()) == 0

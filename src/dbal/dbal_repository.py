@@ -46,6 +46,6 @@ class DBALRepository():
         except NoResultFound:
             return self.add(entity)
 
-    def drop_table(self):
+    def truncate_table(self):
         self.session.query(self.model).delete()
         self.session.commit()
