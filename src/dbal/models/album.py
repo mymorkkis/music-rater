@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from src.base import Base
 
 
-class Album(Base):
+class DBALAlbum(Base):
     __tablename__ = 'album'
 
     __table_args__ = (
@@ -19,6 +19,6 @@ class Album(Base):
 
     genre_id = Column(Integer, ForeignKey('genre.id'), nullable=False)
 
-    tracks = relationship('Track', backref='album', lazy=True)
+    tracks = relationship('DBALTrack', backref='album', lazy=True)
 
-    rating = relationship("MusicRating", uselist=False, back_populates="album")
+    rating = relationship("DBALMusicRating", uselist=False, back_populates="album")

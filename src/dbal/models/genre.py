@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, UniqueConstraint
 from src.base import Base
 
 
-class Genre(Base):
+class DBALGenre(Base):
     __tablename__ = 'genre'
 
     __table_args__ = (
