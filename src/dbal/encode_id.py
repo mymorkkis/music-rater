@@ -23,5 +23,7 @@ def track(db_id):
 
 
 def _encode_domain_id(prefix, db_id):
+    if not db_id:
+        return
     domain_id = f'{prefix}:{db_id}'
     return base64.b64encode(domain_id.encode())

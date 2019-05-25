@@ -11,8 +11,8 @@ from src.dbal.repositories.dbal_repository import DBALRepository
 from src.dbal.repositories.artist_repository import ArtistRepository
 from src.dbal.repositories.album_repository import AlbumRepository
 from src.dbal.repositories.genre_repository import GenreRepository
-# from src.dbal.repositories.music_rating_repository import MusicRatingRepository
-# from src.dbal.repositories.track_repository import TrackRepository
+from src.dbal.repositories.music_rating_repository import MusicRatingRepository
+from src.dbal.repositories.track_repository import TrackRepository
 
 
 Session = sessionmaker()
@@ -82,12 +82,12 @@ def album_repository(test_session):
     return AlbumRepository(db_session=test_session)
 
 
-# @pytest.fixture
-# def music_rating_repository(test_session):
-#     return MusicRatingRepository(db_session=test_session)
+@pytest.fixture
+def music_rating_repository(test_session):
+    return MusicRatingRepository(db_session=test_session)
 
 
-# @pytest.fixture
-# def track_repository(test_session):
-#     return TrackRepository(db_session=test_session)
+@pytest.fixture
+def track_repository(test_session):
+    return TrackRepository(db_session=test_session)
 
