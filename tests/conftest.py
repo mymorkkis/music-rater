@@ -7,7 +7,12 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 import pytest
 
-from src.dbal.dbal_repository import DBALRepository
+from src.dbal.repositories.dbal_repository import DBALRepository
+from src.dbal.repositories.artist_repository import ArtistRepository
+from src.dbal.repositories.album_repository import AlbumRepository
+from src.dbal.repositories.genre_repository import GenreRepository
+# from src.dbal.repositories.music_rating_repository import MusicRatingRepository
+# from src.dbal.repositories.track_repository import TrackRepository
 
 
 Session = sessionmaker()
@@ -62,43 +67,27 @@ def test_session(test_engine):
     connection.close()
 
 
-@pytest.fixture(scope='function')
-def mock_dbal_repository():
-    '''Mock DBALRepository for domain layer testing'''
-    class MockDBALRepository(DBALRepository):
-        def __init__(self):
-            self.session = {}
+@pytest.fixture
+def artist_repository(test_session):
+    return ArtistRepository(db_session=test_session)
 
-        def get(self, entity_id):
-            try:
-                return self.session[entity_id]
-            except KeyError:
-                raise NoResultFound
 
-        def add(self, entity):
-            self.session[entity.id] = entity
-            return entity
+@pytest.fixture
+def genre_repository(test_session):
+    return GenreRepository(db_session=test_session)
 
-        def delete(self, entity):
-            try:
-                del self.session[entity.id]
-            except KeyError:
-                pass
 
-        def update(self, entity):
-            stored_entity = self.get(entity.id)
+@pytest.fixture
+def album_repository(test_session):
+    return AlbumRepository(db_session=test_session)
 
-            for attribute in vars(stored_entity).keys():
-                if not attribute.startswith('_'):
-                    setattr(stored_entity, attribute, getattr(entity, attribute))
 
-            return stored_entity
+# @pytest.fixture
+# def music_rating_repository(test_session):
+#     return MusicRatingRepository(db_session=test_session)
 
-        def upsert(self, entity):
-            try:
-                stored_entity = self.get(entity.id)
-                return self.update(stored_entity)
-            except NoResultFound:
-                return self.add(entity)
 
-    return MockDBALRepository()
+# @pytest.fixture
+# def track_repository(test_session):
+#     return TrackRepository(db_session=test_session)
+
